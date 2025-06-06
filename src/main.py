@@ -3,7 +3,8 @@ import xarray as xr
 
 from utils import print_nan_stats
 
-TARGET = 'salinity_00' # for now
+TARGET = 'nitrate_00' # for now
+DROP_NA = True
 
 if __name__ == "__main__":
     t = csv_to_xarray(download_csv("temperature", 0))
@@ -14,5 +15,6 @@ if __name__ == "__main__":
 
     ds = xr.merge([t, s, o, n, p])
     df = ds.to_dataframe().reset_index()
-    df.dropna(subset=[TARGET], inplace=True)
+    if DROP_NA:
+        df.dropna(subset=[TARGET], inplace=True)
     df.to_parquet(f"data/processed/{TARGET}_train_data.parquet")
