@@ -3,7 +3,7 @@ import xarray as xr
 
 from utils import print_nan_stats
 
-TARGET = 'nitrate_00' # for now
+TARGET = 'oxygen_00' # for now
 DROP_NA = True
 
 if __name__ == "__main__":

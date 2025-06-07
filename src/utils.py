@@ -33,3 +33,5 @@ def print_nan_stats(obj: xr.DataArray | xr.Dataset, depth=None):
         print(f"  Wartości   : {total_s:,}")
         print(f"  Braki (NaN): {missing_s:,}")
         print(f"  Pokrycie   : {coverage_s:.2f}%")
+
+

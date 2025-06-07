@@ -71,3 +71,33 @@ def csv_to_xarray(path: Path) -> xr.Dataset:
             .assign_coords(depth=DEPTHS)
     )
     return ds.squeeze()
+
+def random_test_patches_mask(df: pd.DataFrame, grid_size=(20, 20), n_patches=10, seed=42) -> pd.Series:
+    """
+    Losuje n_patches z globalnej siatki i tworzy maskę testową.
+    
+    Args:
+        df: DataFrame z kolumnami 'lat' i 'lon'.
+        grid_size: (n_lat_bins, n_lon_bins) – ile kafli w pionie i poziomie.
+        n_patches: ile patchy ma trafić do testu.
+        seed: dla powtarzalności.
+
+    Returns:
+        test_mask: pd.Series[bool] z True dla testowych patchy.
+    """
+    lat_bins = np.linspace(df["lat"].min(), df["lat"].max(), grid_size[0] + 1)
+    lon_bins = np.linspace(df["lon"].min(), df["lon"].max(), grid_size[1] + 1)
+
+    lat_inds = np.digitize(df["lat"], bins=lat_bins) - 1
+    lon_inds = np.digitize(df["lon"], bins=lon_bins) - 1
+
+    patch_ids = lat_inds * grid_size[1] + lon_inds
+    df = df.copy()
+    df["patch_id"] = patch_ids
+
+    unique_patches = df["patch_id"].unique()
+    rng = np.random.default_rng(seed)
+    test_patch_ids = rng.choice(unique_patches, size=n_patches, replace=False)
+
+    test_mask = df["patch_id"].isin(test_patch_ids)
+    return test_mask
