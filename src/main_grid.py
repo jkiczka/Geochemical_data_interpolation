@@ -11,4 +11,4 @@ if __name__ == "__main__":
     df_woa_shallow = get_woa_grid_shallow(ds_woa)
     if SAVE_ALL:
         df_woa.to_csv(PATH, index=False)
-    df_woa_shallow.to_csv(PATH, index=False)
+    df_woa_shallow.to_csv(PATH_SHALLOW, index=False)
