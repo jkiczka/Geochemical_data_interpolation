@@ -55,7 +55,7 @@ root/
 
 ---
 
-## ⚙️ Key Features
+## Key Features
 
 - ✅ Patch-based Cross Validation: more realistic spatial split.
 - ✅ Multiple model families for comparison.
